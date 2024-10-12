@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<style>
+    form > input, form >label, form > p{
+        display: block;
+        margin: 5px;
+    }
+    p{
+        color: red;
+    }
+</style>
+<body>
+    <!--Formulário no python não tem ativação que nem o PHP-->
+    <form method="POST">
+        <label for="nome">Insira seu nome :</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="senha">Insira sua senha :</label>
+        <input type="password" name="senha" id="senha">
+        <p>{{codicao}}</p>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>

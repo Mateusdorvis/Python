@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    .caixa_mensagem {
+        max-width: 1000px;
+        background-color: #624ce0;
+        height: 500px;
+        overflow: auto;
+    }
+
+    input[type='text'] {
+        width: 400px;
+        height: 50px;
+        border-radius: 40px;
+
+
+    }
+
+    #btn {
+        top: 0;
+        left: 0;
+        position: relative;
+        height: 100px;
+        width: 100px;
+        border-radius: 100%;
+        background-color: rgb(0, 0, 0);
+        color: white;
+
+
+    }
+
+    .enviar {
+        display: flex;
+    }
+
+    .balao_chat {
+        width: 300px;
+        height: 200px;
+        background-color: rgb(255, 199, 126);
+        margin: 50px;
+        padding: 40px;
+        border-radius: 20px;
+        left: 200px;
+        position: relative;
+
+    }
+
+
+    .balao {
+        width: 300px;
+        height: 200px;
+        background-color: white;
+        margin: 50px;
+        border-radius: 20px;
+        padding: 50px;
+    }
+
+    .balao_chat,
+    .balao {
+        opacity: 0;
+        transition: .10s ease-in-out;
+        transform: translateX(20px);
+    }
+
+    .show {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+    .fa-arrow-right {
+        color: white;
+        position: relative;
+        font-size: 40px;
+        left: 30px;
+        top: 30px;
+    }
+</style>
+
+<body>
+    <div class="caixa_mensagem">
+
+    </div>
+    <div class="enviar">
+        <input type="text" name="msg" id="mensagem" placeholder="Escreva uma mensagem....">
+        <div id="btn" onclick="Click()"><i class="fa-solid fa-arrow-right"></i></div>
+    </div>
+
+
+    <script>
+        var box = document.getElementsByTagName('div')[0];
+
+        function Click() {
+            var msg = document.getElementById('mensagem').value;
+            fetch('/chat', {
+                method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+                body: new URLSearchParams({ msg })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    //1 balão
+                    let p = document.createElement('p')
+                    p.className = 'balao'
+                    //2° balao
+                    let p_chat = document.createElement('p')
+                    p_chat.className = 'balao_chat'
+                    box.appendChild(p)
+                    box.appendChild(p_chat)
+                    p.textContent = data.RespostaUser 
+                    p_chat.textContent = data.RespostaChat
+                    setTimeout(()=>{
+                        p.classList.add('show')
+                        p_chat.classList.add('show')
+                    }, 10)
+                    box.scrollTop = box.scrollHeight
+
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>
+
